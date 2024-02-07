@@ -1,0 +1,14 @@
+#!/bin/bash
+
+commit_msg_file=$1
+commit_source=$2
+sha1=$3
+
+[[ -z "$commit_msg_file" || "$GIT_EDITOR" = : ]] && exit 0
+[[ -z "$commit_source" ]] || exit 0
+
+echo >> "$commit_msg_file" "# Repository: $(realpath "$PWD")"
+echo >> "$commit_msg_file" '#'
+echo >> "$commit_msg_file" "# History:"
+echo >> "$commit_msg_file" '#'
+git log -10 --format='# %h %<(20)%an %<(13)%ar %s' >>"$commit_msg_file"
